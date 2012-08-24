@@ -2,16 +2,16 @@
 A Virtual Implemention of OS for understanding routines of OS
 
 * MOS(Machine Operating System)
-** Used for execution of multiple jobs
-** Job should be defined well structured
-** Jobs containing error will not run
-** System Will Report Error For Wrong Jobs
+ Used for execution of multiple jobs
+ Job should be defined well structured
+ Jobs containing error will not run
+ System Will Report Error For Wrong Jobs
 
 
 * Job can consist of Instruction
-** GD-Get Data
-** PD-Print Data
-** LR-Load Register From Memory
-** SR-Store Register From Memory
-** CR-Compare Register And Memory
-** BT-Branch Toggle(Checks Toggle Variable)
+ GD-Get Data
+ PD-Print Data
+ LR-Load Register From Memory
+ SR-Store Register From Memory
+ CR-Compare Register And Memory
+ BT-Branch Toggle(Checks Toggle Variable)
