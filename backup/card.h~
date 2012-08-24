@@ -1,0 +1,14 @@
+#ifndef CARD_H_
+#define CARD_H_
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+/* Easy File Handling Macros */
+#define O_READ(x) fopen(x,"rt")
+#define O_WRIT(x) fopen(x,"wt")
+#define CLOSE(x)  if(x) fclose(x)
+
+/* File Pointers */
+FILE *FIN;
+FILE *FOUT;
+#endif  /* card.h */

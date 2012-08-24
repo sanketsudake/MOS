@@ -1,0 +1,7 @@
+
+
+/* Innitialize Memory */
+extern void mem_init(MEM *memory){
+  memset(memory->BUFF,'\0',sizeof(memory->BUFF));
+  memset(memory->line,'\0',sizeof(memory->LINE));
+}

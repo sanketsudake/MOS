@@ -1,0 +1,8 @@
+#include"card.h"
+void card_ipfile(FILE *fp){
+  fp=O_READ(x);
+  if(fp==0){
+    fprintf("Error:Can't Open Input File");
+    exit(8);
+  }
+}

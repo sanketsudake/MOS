@@ -1,0 +1,12 @@
+#ifndef LINEP_H_
+#define LINEP_H_
+/* LINEPRINTER Structure=>
+   OPLINE=Output Line;
+   OPFLAG=Check New Output Available,Or Halt
+ */
+struct LINEPRINTER{
+  char OPLINE[40];
+  int OPFLAG;
+};
+typedef struct LINEPRINTER LINEPRINTER;
+#endif  /* linep.h */
