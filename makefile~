@@ -1,5 +1,0 @@
-clean:
-	rm -r *.o *.h.gch
-
-backup:
-	mv -y *~ backup/

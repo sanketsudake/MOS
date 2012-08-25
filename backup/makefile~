@@ -2,4 +2,4 @@ clean:
 	rm -r *.o *.h.gch
 
 backup:
-	mv *~ backup/
+	mv -y *~ backup/
