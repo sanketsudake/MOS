@@ -1,20 +1,26 @@
 #include"mem.h"
-
 /* Allocate Memory */
-static void mem_alloc(MEM *memory){
-  memory=malloc(sizeof(MEM));
+static MEM* mem_alloc(MEM *memory){
+  memory=(MEM*)malloc(sizeof(MEM));
+  if(memory==NULL)
+    {
+      fprintf(stderr,"Memory not allocated");
+    }
+  return memory;
 }
 
 /* Set Whole Memory To Blank */
-static void  mem_set(MEM *memory){
-  memset((*memory).BUFF,'\0',sizeof((*memory).BUFF));
-  memset((*memory).LINE,'\0',sizeof((*memory).LINE));
+static MEM* mem_set(MEM *memory){
+  memset((void*)memory->BUFF,'\0',sizeof(char)*10*41);
+  memset((void*)memory->LINE,'\0',sizeof(char)*41);
+  return memory;
 }
 
 /* Innitialize Memory */
-void mem_init(MEM *memory){
-  mem_alloc(memory);
-  mem_set(memory);
+MEM* mem_init(MEM *memory){
+ memory=mem_alloc(memory);
+ memory=mem_set(memory);
+ return memory;
 }
 
 /* Get A Character From Memory Buffer */
@@ -23,6 +29,6 @@ char mem_getchar(MEM *memory,int row,int coloumn){
 }
 
 /* Get A Character From Current Memory Line*/
-char meml_getchar(MEM *Memory,int no){
+char meml_getchar(MEM *memory,int no){
   return (*memory).LINE[no];
 }

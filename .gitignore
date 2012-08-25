@@ -3,3 +3,4 @@
 
 #Compiled Source#
 *.o
+*.h.gch
