@@ -2,10 +2,13 @@
 
 /* Allocate Memory */
 static MEM* mem_alloc(MEM *memory){
-  memory=(MEM*)malloc(sizeof(MEM));
+  if(memory==NULL){
+    memory=(MEM*)malloc(sizeof(MEM));
+  }
   if(memory==NULL)
     {
       fprintf(stderr,"Memory not allocated");
+      exit(8);
     }
   return memory;
 }

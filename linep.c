@@ -2,9 +2,12 @@
 #include"linep.h"
 
 static LINEPRINTER* linep_alloc(LINEPRINTER *linep){
-  linep=(LINEPRINTER*)malloc(sizeof(LINEPRINTER));
+  if(linep==NULL){
+    linep=(LINEPRINTER*)malloc(sizeof(LINEPRINTER));
+  }
   if(linep==NULL){
     fprintf(stderr,"Memory not allocated");
+    exit(8);
   }
   return linep;
 }
