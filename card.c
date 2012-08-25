@@ -1,20 +1,27 @@
 #include"card.h"
 #include"memory.h"
-void card_open(FILE *FIN,char *filename){
+
+/* Open card using filename */
+FILE* card_open(FILE *FIN,char *filename){
   FIN=O_READ(filename);
   if(FIN==0){
     fprintf(stderr,"Error:Can't Open Input File");
     exit(8);
   }
+  return FIN;
 }
+
+/* Read card up $END and store in buffer */
 int card_read(FILE *FIN,MEM *memory){
-  int count,temp;
-  static int lineno=0;
-  count=0;
+  unsigned int count=0,temp=0;
+  static unsigned int lineno=0;
   while(fgets(memory->LINE,sizeof(memory->LINE),FIN)){
     lineno++;
     if((*memory).LINE[0]=='$'&&(*memory).LINE[1]=='E')
-      break;
+      {
+        temp++;
+        break;
+      }
     if((*memory).LINE[0]!='$'){
       (*memory).LINE[strlen((*memory).LINE)-1]='\0';
       strcpy(&((*memory).BUFF[count][0]),(*memory).LINE);
@@ -31,6 +38,7 @@ int card_read(FILE *FIN,MEM *memory){
     }
   return count;
 }
+
 void card_close(FILE *FIN){
   if(FIN){
     CLOSE(FIN);

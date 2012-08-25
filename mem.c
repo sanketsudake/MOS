@@ -1,4 +1,5 @@
 #include"mem.h"
+
 /* Allocate Memory */
 static MEM* mem_alloc(MEM *memory){
   memory=(MEM*)malloc(sizeof(MEM));

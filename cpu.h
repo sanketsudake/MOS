@@ -1,5 +1,7 @@
 #ifndef CPU_H_
 #define CPU_H_
+#include"mem.h"
+
 /*CPU Structure=>
   IR=Instruction Register,
   R=CPU Register,
@@ -7,14 +9,15 @@
   PI=Program Interrupt,
 */
 struct CPU{
-  char IR[4],R[4];
   int PC;
-  enum SI{0,1,2,3}SI;
-  enum PI{0,1}PI;
-  /* enum TI=Second Phase */
+  char IR[4],R[4];
+  enum SI {none,gd,pd,h} SI;
+  enum PI{n,y}PI;
   enum MODE{master,slave}MODE;
   enum TOGGLE{true,false}C;
+  /* enum TI=Second Phase */
 };
 typedef struct CPU CPU;
-extern void cpu_init();
-#endif  /* cpu.h */
+
+extern CPU* cpu_init(CPU *cpu);
+#endif  /* cpu.h int addr*/
