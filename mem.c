@@ -28,8 +28,8 @@ MEM* mem_init(MEM *memory){
 }
 
 /* Get A Character From Memory Buffer */
-char mem_getchar(MEM *memory,int row,int coloumn){
-  return (*memory).BUFF[row][coloumn];
+char mem_getchar(MEM *memory,int line,int place){
+  return (*memory).BUFF[line][place];
 }
 
 /* Get A Character From Current Memory Line*/

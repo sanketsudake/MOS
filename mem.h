@@ -14,6 +14,6 @@ struct MEM{
 };
 typedef struct MEM MEM;
 extern MEM* mem_init(MEM *memory);
-extern char mem_getchar(MEM *memory,int row,int coloumn);
+extern char mem_getchar(MEM *memory,int line,int place);
 extern char meml_getchar(MEM *memory,int no);
 #endif  /* mem.h */

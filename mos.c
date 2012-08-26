@@ -81,7 +81,7 @@ void mos_pd(HAL *hal,int addr){
 void mos_execute(HAL *hal){
   int row=0,line=0,cno=0;
   char c;
-  while(true)
+  while(1)
     {
       if(row==41){
         line+=1;
@@ -92,28 +92,35 @@ void mos_execute(HAL *hal){
           }
         row=0;
       }
-      c=mem_getchar(hal->memory,row,line);
-      if(c=='H')
-        mos_halt(hal);
+      c=mem_getchar(hal->memory,line,row);
+      if(c=='H' && cno==0)
+        {
+          hal->cpu->SI=h;
+          mos_halt(hal);
+          return;
+        }
       if(isalnum(c))
         {
+          /* printf("\n%d\t%c\t%d\t%d\t%d\t%d\n",cno,c,isalpha(c),isdigit(c),row,line); */
           if(isalpha(c) && cno<=2)
             {
               hal->cpu->IR[cno]=c;
             }
-          if(!isalpha(c) && cno<=2)
+          if(isalpha(c) && (cno==2||cno==3))
             {
               hal->cpu->PI=n;
               fprintf(stderr,"Incorrect Program");
               exit(8);
             }
-          if(isdigit(c) && cno<=4)
+          if(isdigit(c) && 2<cno<=4)
             {
               hal->cpu->IR[cno]=c;
             }
-          if(!isdigit(c) && cno<=4)
+          if(isdigit(c) && (cno==0||cno==1))
             {
               hal->cpu->PI=n;
+              fprintf(stderr,"Incorrect Program");
+              exit(8);
             }
           cno++;
         }
@@ -128,7 +135,23 @@ void mos_execute(HAL *hal){
 }
 
 void mos_call(HAL *hal){
-  printf("MOS CALL\n");
+  char i1,i2,i3,i4;
+  int addr;
+  i1=hal->cpu->IR[0];
+  i2=hal->cpu->IR[1];
+  i3=hal->cpu->IR[2];
+  i4=hal->cpu->IR[3];
+  addr=atoi(&i3)+atoi(&i4);
+  printf("%d\n",addr);
+  if(i1=='G' && i2=='D'){
+    hal->cpu->SI=gd;
+    mos_gd(hal,addr);
+  }
+  if(i1=='P' && i2=='D'){
+    hal->cpu->SI=pd;
+    mos_gd(hal,addr);
+  }
+
 }
 
 /* /\* Load Register Service *\/ */
