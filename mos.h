@@ -14,15 +14,16 @@ struct HAL{
   int gd[10];
 };
 typedef struct HAL HAL;
+
 extern HAL* hal_turnon(HAL *hal,char *instream,char *outstream);
 extern void hal_turnoff(HAL *hal);
 extern HAL* mos_halt(HAL *hal);
 extern void mos_gd(HAL *hal,int addr);
 extern void mos_pd(HAL *hal,int addr);
 extern void mos_execute(HAL *hal);
-extern void mos_call(HAL *hal);
+extern void mos_call(HAL *hal,int *row,int *line);
 extern void mos_lr(HAL *hal,int addr);
 extern void mos_sr(HAL *hal,int addr);
-/* extern void mos_cr(CPU *cpu,int addr); */
-/* extern void mos_bt(CPU *cpu,int addr); */
+extern void mos_cr(HAL *hal,int addr);
+extern void mos_bt(HAL *hal,int addr,int *row,int *line);
 #endif  /* mos.h */

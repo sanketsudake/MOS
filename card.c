@@ -31,9 +31,15 @@ int card_read(FILE *FIN,MEM *memory){
       temp++;
     }
   }
+  if(strlen((*memory).LINE)==0)
+    {
+      printf("\nEnd Of the Jobs. :-)\n");
+      exit(8);
+
+    }
   if(temp!=3)
     {
-      fprintf(stderr,"Error:Check for $AMJ,$DTA,$END in Program");
+      fprintf(stderr,"Error:Check for $AMJ,$DTA,$END in Program :-(");
       exit(8);
     }
   return count;

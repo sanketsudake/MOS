@@ -2,10 +2,11 @@
 A Virtual Implemention of OS for understanding routines of OS
 
 * MOS(Machine Operating System)
--  Used for execution of multiple jobs
--  Job should be defined well structured
--  Jobs containing error will not run
--  System Will Report Error For Wrong Jobs
+- Used for execution of multiple jobs
+- Job should be defined ,well structured
+- System Will Report Error For Wrong Jobs
+- Series of Jobs should be kept in input.txt
+- Afer processing of jobs output can be seen output.txt
 
 
 * Job can consist of Instruction
@@ -15,3 +16,10 @@ A Virtual Implemention of OS for understanding routines of OS
 -  SR-Store Register From Memory
 -  CR-Compare Register And Memory
 -  BT-Branch Toggle(Checks Toggle Variable)
+
+
+* Tool used
+- Gcc compiler
+- Emacs
+- Gdb
+- Gprof,Gcov,Cscope

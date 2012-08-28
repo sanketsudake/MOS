@@ -12,6 +12,7 @@ static HAL* mos_init(HAL *hal){
   return hal;
 }
 
+/* Handling all interrupts after each instruction */
 static void mos_interrupt(HAL *hal,int addr){
   if(hal->cpu->SI!=none)
     {
@@ -31,6 +32,7 @@ static void mos_interrupt(HAL *hal,int addr){
   }
 }
 
+/* Call to execute program after loading in memory */
 void mos_execute(HAL *hal){
   int row=0,line=0,cno=0;
   char c;
@@ -54,7 +56,7 @@ void mos_execute(HAL *hal){
         }
       if(isalnum(c))
         {
-          printf("\n%d\t%c\t%d\t%d\t%d\t%d\n",cno,c,isalpha(c),isdigit(c),row,line);
+          /* printf("\n%d\t%c\t%d\t%d\t%d\t%d\n",cno,c,isalpha(c),isdigit(c),row,line); */
           if(isalpha(c) && (cno==0||cno==1))
             {
               hal->cpu->IR[cno]=c;
@@ -80,14 +82,15 @@ void mos_execute(HAL *hal){
 
       if(cno==4)
         {
-          mos_call(hal);
+          mos_call(hal,&row,&line);
           cno=0;
         }
       row++;
     }
 }
 
-void mos_call(HAL *hal){
+/* Decide which instruction does IR really contains */
+void mos_call(HAL *hal,int *row,int *line){
   char i1,i2,i3,i4;
   int addr;
   i1=hal->cpu->IR[0];
@@ -95,7 +98,7 @@ void mos_call(HAL *hal){
   i3=hal->cpu->IR[2];
   i4=hal->cpu->IR[3];
   addr=atoi(&i3)+atoi(&i4);
-  printf("%d\n",addr);
+  /* printf("%d\n",addr); */
   if(i1=='G' && i2=='D'){
     hal->cpu->SI=gd;
   }
@@ -107,6 +110,12 @@ void mos_call(HAL *hal){
   }
   if(i1=='S' && i2=='R'){
     mos_sr(hal,addr);
+  }
+  if(i1=='C' && i2=='R'){
+    mos_cr(hal,addr);
+  }
+  if(i1=='B' && i2== 'T'){
+    mos_bt(hal,addr,row,line);
   }
   mos_interrupt(hal,addr);
 }
@@ -154,7 +163,6 @@ void mos_pd(HAL *hal,int addr){
 /* Load Register Service */
 void mos_lr(HAL *hal,int addr){
   int temp,i;
-  printf("\nCALL to MOS LR");
   if(hal->cpu->PI==y){
     fprintf(stderr,"Function=mos_lr:Error In Call");
     exit(8);
@@ -178,21 +186,34 @@ void mos_sr(HAL *hal,int addr){
   }
 }
 
-/* /\* Compare Register Service *\/ */
-/* void mos_cr(CPU *cpu,int addr){ */
-/*   if(cpu->PI!=y){ */
-/*     printf(stderr,"error in call"); */
-/*     exit(8); */
-/*   } */
-/* } */
+/* Compare Register Service */
+void mos_cr(HAL *hal,int addr){
+  int temp1=0,temp2=0,flag=1,i=0;
+  if(hal->cpu->PI==y){
+    fprintf(stderr,"Function=mos_cr:error in call");
+    exit(8);
+  }
+  temp1=(addr/10)-1;
+  temp2=(addr%10);
+  for(i=0;i<4;i++)
+    {
+      if(hal->memory->BUFF[temp1][temp2+i]!=hal->cpu->R[i])
+        {
+          flag=0;
+          break;
+        }
+    }
+  if(flag)
+    hal->cpu->C=true;
+}
 
-/* /\* Branch Toggle Service *\/ */
-/* void mos_bt(CPU *cpu,int addr){ */
-/*   if(cpu->PI!=y){ */
-/*     printf(stderr,"error in call"); */
-/*     exit(8); */
-/*   } */
-/* } */
+/* Branch Toggle Service */
+void mos_bt(HAL *hal,int addr,int *row,int *line){
+  if(hal->cpu->PI==y){
+    fprintf(stderr,"error in call");
+    exit(8);
+  }
+}
 
 /* Turn on hardware abstraction layer */
 HAL* hal_turnon(HAL *hal,char *instream,char *outstream){

@@ -1,9 +1,0 @@
-#ifndef MEM_H_
-#define MEM_H_
-/* MEMORY structure=>
- */
-struct MEM{
-  char BUFF[10][40];
-  char *MEMPTR;
-};
-#endif  /* mem.h */
