@@ -5,5 +5,12 @@ CPU* cpu_init(CPU *cpu){
     {
       fprintf(stderr,"Memory not allocated");
     }
+  memset((void*)cpu->IR,'\0',sizeof(char)*4);
+  memset((void*)cpu->R,'\0',sizeof(char)*4);
+  cpu->PC=0;
+  cpu->SI=none;
+  cpu->PI=n;
+  cpu->MODE=slave;
+  cpu->C=false;
   return cpu;
 }

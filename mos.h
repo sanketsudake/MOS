@@ -21,8 +21,8 @@ extern void mos_gd(HAL *hal,int addr);
 extern void mos_pd(HAL *hal,int addr);
 extern void mos_execute(HAL *hal);
 extern void mos_call(HAL *hal);
-/* extern void mos_lr(CPU *cpu,int addr); */
-/* extern void mos_sr(CPU *cpu,int addr); */
+extern void mos_lr(HAL *hal,int addr);
+extern void mos_sr(HAL *hal,int addr);
 /* extern void mos_cr(CPU *cpu,int addr); */
 /* extern void mos_bt(CPU *cpu,int addr); */
 #endif  /* mos.h */

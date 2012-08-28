@@ -25,10 +25,10 @@ static void mos_interrupt(HAL *hal,int addr){
       if(hal->cpu->SI==h)
         mos_halt(hal);
     }
-  /* if(hal->cpu->PI==n){ */
-  /*   fprintf(stderr,"Program Fault:Incorrect instruction"); */
-  /*   exit(8); */
-  /* } */
+  if(hal->cpu->PI==y){
+    fprintf(stderr,"Program Fault:Incorrect instruction");
+    exit(8);
+  }
 }
 
 void mos_execute(HAL *hal){
@@ -40,7 +40,7 @@ void mos_execute(HAL *hal){
         line+=1;
         if(line==10)
           {
-            fprintf(stderr,"Program overflow");
+            fprintf(stderr,"Function=mos_execute:Program overflow");
             exit(8);
           }
         row=0;
@@ -61,8 +61,8 @@ void mos_execute(HAL *hal){
             }
           if(isalpha(c) && (cno==2||cno==3))
             {
-              hal->cpu->PI=n;
-              fprintf(stderr,"Incorrect Program");
+              hal->cpu->PI=y;
+              fprintf(stderr,"Fuction=mos_execute:Incorrect Program");
               exit(8);
             }
           if(isdigit(c) && (cno==2||cno==3))
@@ -71,8 +71,8 @@ void mos_execute(HAL *hal){
             }
           if(isdigit(c) && (cno==0||cno==1))
             {
-              hal->cpu->PI=n;
-              fprintf(stderr,"Incorrect Program");
+              hal->cpu->PI=y;
+              fprintf(stderr,"Function=mos_execute:Incorrect Program");
               exit(8);
             }
           cno++;
@@ -102,6 +102,12 @@ void mos_call(HAL *hal){
   if(i1=='P' && i2=='D'){
     hal->cpu->SI=pd;
   }
+  if(i1=='L' && i2=='R'){
+    mos_lr(hal,addr);
+  }
+  if(i1=='S' && i2=='R'){
+    mos_sr(hal,addr);
+  }
   mos_interrupt(hal,addr);
 }
 
@@ -109,8 +115,8 @@ void mos_call(HAL *hal){
 
 /* Halt Service */
 HAL* mos_halt(HAL *hal){
-  if(hal->cpu->SI!=h && hal->cpu->PI!=y){
-    fprintf(stderr,"error in call");
+  if(hal->cpu->SI!=h && hal->cpu->PI==y){
+    fprintf(stderr,"Function=mos_halt:Error In Call");
     exit(8);
   }
   linep_jobend(hal->outstream);
@@ -121,8 +127,8 @@ HAL* mos_halt(HAL *hal){
 
 /* Get Data Service */
 void mos_gd(HAL *hal,int addr){
-  if(hal->cpu->SI!=gd && hal->cpu->PI!=y){
-    fprintf(stderr,"error in call");
+  if(hal->cpu->SI!=gd && hal->cpu->PI==y){
+    fprintf(stderr,"Function=mos_gd:Error In Call");
     exit(8);
   }
   if((int)(addr/10)<10){
@@ -133,8 +139,8 @@ void mos_gd(HAL *hal,int addr){
 /* Print Data Service */
 void mos_pd(HAL *hal,int addr){
   int temp;
-  if(hal->cpu->SI!=pd && hal->cpu->PI!=y){
-    fprintf(stderr,"error in call");
+  if(hal->cpu->SI!=pd && hal->cpu->PI==y){
+    fprintf(stderr,"Function=mos_pd:Error In Call");
     exit(8);
   }
   temp=addr/10;
@@ -145,21 +151,32 @@ void mos_pd(HAL *hal,int addr){
 }
 
 
-/* /\* Load Register Service *\/ */
-/* void mos_lr(CPU *cpu,int addr){ */
-/*   if(cpu->PI!=y){ */
-/*     printf(stderr,"error in call"); */
-/*     exit(8); */
-/*   } */
-/* } */
+/* Load Register Service */
+void mos_lr(HAL *hal,int addr){
+  int temp,i;
+  printf("\nCALL to MOS LR");
+  if(hal->cpu->PI==y){
+    fprintf(stderr,"Function=mos_lr:Error In Call");
+    exit(8);
+  }
+  temp=(addr/10)-1;
+  for(i=0;i<4;i++){
+    hal->cpu->R[i]=hal->memory->BUFF[temp][i];
+  }
+}
 
-/* /\* Store Register Service *\/ */
-/* void mos_sr(CPU *cpu,int addr){ */
-/*   if(cpu->PI!=y){ */
-/*     printf(stderr,"error in call"); */
-/*     exit(8); */
-/*   } */
-/* } */
+/* Store Register Service */
+void mos_sr(HAL *hal,int addr){
+  int temp,i;
+  if(hal->cpu->PI==y){
+    fprintf(stderr,"Function=mos_sr:Error In Call");
+    exit(8);
+  }
+  temp=(addr/10)-1;
+  for(i=0;i<4;i++){
+    hal->memory->BUFF[temp][i]=hal->cpu->R[i];
+  }
+}
 
 /* /\* Compare Register Service *\/ */
 /* void mos_cr(CPU *cpu,int addr){ */
