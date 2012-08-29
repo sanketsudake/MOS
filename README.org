@@ -1,8 +1,4 @@
-/******************************************/
-/* Author:-Sanket Sudake                  */
-/* Licence:- GNU GPL v3                   */
-/* Project Name:-Machine Operating System */
-/* ****************************************/
+Author:Sanket Sudake
 
 A Virtual Implemention of OS for understanding routines of OS
 
@@ -28,3 +24,5 @@ A Virtual Implemention of OS for understanding routines of OS
 - Emacs
 - Gdb
 - Gprof,Gcov,Cscope
+
+
