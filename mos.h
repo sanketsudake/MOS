@@ -1,3 +1,8 @@
+/******************************************/
+/* Author:-Sanket Sudake                  */
+/* Licence:- GNU GPL v3                   */
+/* Project Name:-Machine Operating System */
+/* ****************************************/
 #ifndef MOS_H_
 #define MOS_H_
 #include"cpu.h"

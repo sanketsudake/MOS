@@ -1,3 +1,8 @@
+/******************************************/
+/* Author:-Sanket Sudake                  */
+/* Licence:- GNU GPL v3                   */
+/* Project Name:-Machine Operating System */
+/* ****************************************/
 #ifndef MEM_H_
 #define MEM_H_
 #include<stdio.h>

@@ -1,3 +1,8 @@
+/******************************************/
+/* Author:-Sanket Sudake                  */
+/* Licence:- GNU GPL v3                   */
+/* Project Name:-Machine Operating System */
+/* ****************************************/
 
 A Virtual Implemention of OS for understanding routines of OS
 

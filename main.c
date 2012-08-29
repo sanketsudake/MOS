@@ -1,3 +1,9 @@
+/******************************************/
+/* Author:-Sanket Sudake                  */
+/* Licence:- GNU GPL v3                   */
+/* Project Name:-Machine Operating System */
+/* ****************************************/
+
 #include"mos.h"
 #include"cpu.h"
 #include"linep.h"

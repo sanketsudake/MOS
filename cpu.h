@@ -1,3 +1,8 @@
+/******************************************/
+/* Author:-Sanket Sudake                  */
+/* Licence:- GNU GPL v3                   */
+/* Project Name:-Machine Operating System */
+/* ****************************************/
 #ifndef CPU_H_
 #define CPU_H_
 #include"mem.h"

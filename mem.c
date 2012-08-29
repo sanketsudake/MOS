@@ -1,3 +1,13 @@
+/******************************************/
+/* Author:-Sanket Sudake                  */
+/* Licence:- GNU GPL v3                   */
+/* Project Name:-Machine Operating System */
+/* ****************************************/
+
+
+
+
+
 #include"mem.h"
 
 /* Allocate Memory */

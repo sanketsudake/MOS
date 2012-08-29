@@ -1,3 +1,8 @@
+/******************************************/
+/* Author:-Sanket Sudake                  */
+/* Licence:- GNU GPL v3                   */
+/* Project Name:-Machine Operating System */
+/* ****************************************/
 #include"mos.h"
 #include<ctype.h>
 
@@ -120,8 +125,6 @@ void mos_call(HAL *hal,int *row,int *line){
   mos_interrupt(hal,addr);
 }
 
-
-
 /* Halt Service */
 HAL* mos_halt(HAL *hal){
   if(hal->cpu->SI!=h && hal->cpu->PI==y){
@@ -158,7 +161,6 @@ void mos_pd(HAL *hal,int addr){
     hal->linep->OPFLAG=1;
   }
 }
-
 
 /* Load Register Service */
 void mos_lr(HAL *hal,int addr){
@@ -213,6 +215,8 @@ void mos_bt(HAL *hal,int addr,int *row,int *line){
     fprintf(stderr,"error in call");
     exit(8);
   }
+  *row=addr%10;
+  *line=addr/10;
 }
 
 /* Turn on hardware abstraction layer */

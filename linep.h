@@ -1,3 +1,9 @@
+/******************************************/
+/* Author:-Sanket Sudake                  */
+/* Licence:- GNU GPL v3                   */
+/* Project Name:-Machine Operating System */
+/* ****************************************/
+
 #ifndef LINEP_H_
 #define LINEP_H_
 #include"card.h"

@@ -1,3 +1,9 @@
+/******************************************/
+/* Author:-Sanket Sudake                  */
+/* Licence:- GNU GPL v3                   */
+/* Project Name:-Machine Operating System */
+/* ****************************************/
+
 #ifndef CARD_H_
 #define CARD_H_
 #include"mem.h"
