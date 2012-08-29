@@ -215,8 +215,8 @@ void mos_bt(HAL *hal,int addr,int *row,int *line){
     fprintf(stderr,"error in call");
     exit(8);
   }
-  *row=addr%10;
-  *line=addr/10;
+  *row=(addr%10)*4;
+  *line=(addr/10);
 }
 
 /* Turn on hardware abstraction layer */
