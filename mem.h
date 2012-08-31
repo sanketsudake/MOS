@@ -14,8 +14,8 @@
    LINE To Read Line From Program
  */
 struct MEM{
-  char BUFF[10][41];
-  char LINE[41];
+  char BUFF[10][40];
+  char LINE[40];
 };
 typedef struct MEM MEM;
 extern MEM* mem_init(MEM *memory);

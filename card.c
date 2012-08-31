@@ -41,7 +41,6 @@ int card_read(FILE *FIN,MEM *memory){
     {
       printf("\nEnd Of the Jobs. :-)\n");
       exit(8);
-
     }
   if(temp!=3)
     {
@@ -51,6 +50,7 @@ int card_read(FILE *FIN,MEM *memory){
   return count;
 }
 
+/* Close cardreader */
 void card_close(FILE *FIN){
   if(FIN){
     CLOSE(FIN);
