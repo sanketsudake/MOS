@@ -19,9 +19,9 @@ FILE* card_open(FILE *FIN,char *filename){
 
 /* Read card up $END and store in buffer */
 int card_read(FILE *FIN,MEM *memory){
-  unsigned int count=0,temp=0;
-  static unsigned int lineno=0;
-  while(fgets(memory->LINE,sizeof(memory->LINE),FIN)){
+  int count=0,temp=0;
+  int lineno=0,i;
+  while(fgets(memory->LINE,(int)sizeof(memory->LINE),FIN)){
     lineno++;
     if((*memory).LINE[0]=='$'&&(*memory).LINE[1]=='E')
       {
@@ -29,7 +29,7 @@ int card_read(FILE *FIN,MEM *memory){
         break;
       }
     if((*memory).LINE[0]!='$'){
-      (*memory).LINE[strlen((*memory).LINE)-1]='\0';
+      //      (*memory).LINE[strlen((*memory).LINE)]='\0';
       strcpy(&((*memory).BUFF[count][0]),(*memory).LINE);
       count++;
     }
@@ -42,11 +42,16 @@ int card_read(FILE *FIN,MEM *memory){
       printf("\nEnd Of the Jobs. :-)\n");
       exit(8);
     }
-  if(temp!=3)
+  if(temp<3)
     {
       fprintf(stderr,"Error:Check for $AMJ,$DTA,$END in Program :-(");
       exit(8);
     }
+  printf("\ncount=%d\n",count);
+  for(i=0;i<count;i++){
+    printf("%d\t",strlen(memory->BUFF[i]));
+    printf("%s",memory->BUFF[i]);
+  }
   return count;
 }
 

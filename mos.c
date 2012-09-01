@@ -71,13 +71,15 @@ static void mos_interrupt(HAL *hal,int addr){
 
 /* Decide which instruction does IR really contains */
 static void mos_call(HAL *hal,int *row,int *line){
-  char i1,i2,i3,i4;
+  char i1,i2,i3,i4,temp[2]="";
   int addr=0;
   i1=hal->cpu->IR[0];
   i2=hal->cpu->IR[1];
   i3=hal->cpu->IR[2];
   i4=hal->cpu->IR[3];
-  addr=atoi(&i3)+atoi(&i4);
+  temp[0]=i3;
+  temp[1]=i4;
+  addr=atoi(temp);
   printf("%d\n",addr);
   if(i1=='G' && i2=='D'){
     hal->cpu->SI=gd;
@@ -163,7 +165,7 @@ void mos_gd(HAL *hal,int addr){
     fprintf(stderr,"Function=mos_gd:Error In Call");
     mos_halt(hal);
   }
-  if((int)(addr/10)+1<10){
+  if((int)(addr/10)<10){
     hal->gd[(int)addr/10]=1;
   }
 }
@@ -250,6 +252,6 @@ void mos_bt(HAL *hal,int addr,int *row,int *line){
     fprintf(stderr,"error in call");
     mos_halt(hal);
   }
-  *row=(addr%10)*4+1;
+  *row=(addr%10)*4-1;
   *line=(addr/10);
 }

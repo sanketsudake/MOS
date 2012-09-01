@@ -20,8 +20,8 @@ static MEM* mem_alloc(MEM *memory){
 
 /* Set Whole Memory To Blank */
 static MEM* mem_set(MEM *memory){
-  memset((void*)memory->BUFF,'\0',sizeof(char)*10*40);
-  memset((void*)memory->LINE,'\0',sizeof(char)*40);
+  memset((void*)memory->BUFF,'\0',sizeof(char)*10*42);
+  memset((void*)memory->LINE,'\0',sizeof(char)*42);
   return memory;
 }
 

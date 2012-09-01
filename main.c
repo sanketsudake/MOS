@@ -10,7 +10,7 @@
 #include"card.h"
 int main(){
   HAL *hal=NULL;
-  char instream[]="/home/valtzar/MOS/job.txt";
+  char instream[]="/home/valtzar/MOS/check.txt";
   char outstream[]="/home/valtzar/MOS/output.txt";
   hal=hal_turnon(hal,instream,outstream);
   while(1){
