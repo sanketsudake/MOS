@@ -18,7 +18,7 @@ static LINEPRINTER* linep_alloc(LINEPRINTER *linep){
 }
 
 static LINEPRINTER* linep_set(LINEPRINTER *linep){
-  memset((void*)(*linep).OPLINE,'\0',sizeof(char)*41);
+  memset((void*)(*linep).OPLINE,'\0',sizeof(char)*42);
   return linep;
 }
 
@@ -45,12 +45,20 @@ void linep_close(FILE *FOUT){
 
 
 void linep_print(FILE *FOUT,LINEPRINTER *linep){
+  int i;
   if(FOUT && linep->OPFLAG)
     {
       fseek(FOUT,0,SEEK_END);
+      for(i=0;i<strlen(linep->OPLINE)+1;i++)
+        if(linep->OPLINE[i]=='\n')
+          {
+            linep->OPLINE[i]='\0';
+          }
       fprintf(FOUT,"%s\n",linep->OPLINE);
     }
+  linep->OPFLAG=0;
 }
+
 void linep_jobend(FILE *FOUT){
   if(FOUT)
     {

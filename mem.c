@@ -20,8 +20,9 @@ static MEM* mem_alloc(MEM *memory){
 
 /* Set Whole Memory To Blank */
 static MEM* mem_set(MEM *memory){
-  memset((void*)memory->BUFF,'\0',sizeof(char)*10*42);
+  memset((void*)memory->BUFF,'\0',sizeof(char)*20*42);
   memset((void*)memory->LINE,'\0',sizeof(char)*42);
+  memset((void*)memory->MMEM,'\0',sizeof(char)*10*42);
   return memory;
 }
 
@@ -33,11 +34,16 @@ MEM* mem_init(MEM *memory){
 }
 
 /* Get A Character From Memory Buffer */
-char mem_getchar(MEM *memory,int line,int place){
+char inline mem_getchar(MEM *memory,int line,int place){
   return (*memory).BUFF[line][place];
 }
 
 /* Get A Character From Current Memory Line*/
-char meml_getchar(MEM *memory,int no){
+char inline meml_getchar(MEM *memory,int no){
   return (*memory).LINE[no];
+}
+
+/* Get A Character From Main Memory */
+char inline memm_getchar(MEM *memory,int line,int place){
+  return (*memory).MMEM[line][place];
 }

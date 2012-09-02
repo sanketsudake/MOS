@@ -12,7 +12,7 @@
    OPFLAG=Check New Output Available,Or Halt
  */
 struct LINEPRINTER{
-  char OPLINE[40];
+  char OPLINE[42];
   int OPFLAG;
 };
 typedef struct LINEPRINTER LINEPRINTER;

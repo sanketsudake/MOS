@@ -16,7 +16,6 @@ struct HAL{
   FILE *instream;
   FILE *outstream;
   int flag;
-  int gd[10];
 };
 typedef struct HAL HAL;
 

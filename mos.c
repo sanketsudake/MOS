@@ -12,7 +12,7 @@
 HAL* hal_turnon(HAL *hal,char *instream,char *outstream){
   hal=(HAL*)malloc(sizeof(HAL));
   if(hal==NULL){
-    fprintf(stderr,"Memory not allocated");
+    fprintf(hal->outstream,"\nhal_turnon=>Memory not allocated\t");
   }
   hal->memory=mem_init(hal->memory);
   hal->cpu=cpu_init(hal->cpu);
@@ -20,7 +20,6 @@ HAL* hal_turnon(HAL *hal,char *instream,char *outstream){
   hal->instream=card_open(hal->instream,instream);
   hal->outstream=linep_open(hal->outstream,outstream);
   hal->flag=0;
-  memset((void*)hal->gd,0,sizeof(int)*10);
   return hal;
 }
 
@@ -45,7 +44,6 @@ static HAL* mos_init(HAL *hal){
     hal->memory=mem_init(hal->memory);
     hal->cpu=cpu_init(hal->cpu);
     hal->linep=linep_init(hal->linep);
-    memset((void*)hal->gd,0,sizeof(int)*10);
   }
   return hal;
 }
@@ -59,12 +57,14 @@ static void mos_interrupt(HAL *hal,int addr){
       if(hal->cpu->SI==pd){
         mos_pd(hal,addr);
         linep_print(hal->outstream,hal->linep);
+        hal->linep->OPFLAG=0;
       }
       if(hal->cpu->SI==h)
         mos_halt(hal);
     }
+  hal->cpu->SI=none;
   if(hal->cpu->PI==y){
-    fprintf(stderr,"Program Fault:Incorrect instruction");
+    fprintf(hal->outstream,"\nmos_interrupt=> PI==y\t");
     mos_halt(hal);
   }
 }
@@ -115,7 +115,7 @@ void mos_execute(HAL *hal){
     if(row==40){
       line+=1;
       if(line==10){
-        fprintf(stderr,"Function=mos_execute:Program overflow");
+        fprintf(hal->outstream,"\nmos_execute=>line==10\t");
         mos_halt(hal);
       }
       row=0;
@@ -127,13 +127,13 @@ void mos_execute(HAL *hal){
       return;
     }
     if(isalnum(c)){
-      printf("\n%d\t%c\t%d\t%d\t%d\t%d\n",cno,c,isalpha(c),isdigit(c),row,line);
+      printf("\n%d\t%c\t%d\t%d\t%d\t%d",cno,c,isalpha(c),isdigit(c),row,line);
       if(isalpha(c) && (cno==0||cno==1)){
         hal->cpu->IR[cno]=c;
       }
       if(isalpha(c) && (cno==2||cno==3)){
         hal->cpu->PI=y;
-        fprintf(stderr,"Fuction=mos_execute:Incorrect Program");
+        fprintf(hal->outstream,"\nmos_execute:PI==y cno error\t");
         mos_halt(hal);
       }
       if(isdigit(c) && (cno==2||cno==3)){
@@ -141,12 +141,13 @@ void mos_execute(HAL *hal){
       }
       if(isdigit(c) && (cno==0||cno==1)){
         hal->cpu->PI=y;
-        fprintf(stderr,"Function=mos_execute:Incorrect Program");
+        fprintf(hal->outstream,"\nmos_execute:PI==y cno error\t");
         mos_halt(hal);
       }
       cno++;
     }
     if(cno==4){
+      hal->cpu->PC+=1;
       mos_call(hal,&row,&line);
       cno=0;
     }
@@ -161,36 +162,41 @@ void mos_execute(HAL *hal){
 
 /* Get Data Service */
 void mos_gd(HAL *hal,int addr){
-  if(hal->cpu->SI!=gd && hal->cpu->PI==y){
-    fprintf(stderr,"Function=mos_gd:Error In Call");
+  if(hal->cpu->SI!=gd || hal->cpu->PI==y){
+    fprintf(hal->outstream,"\nmos_gd=>si!=gd\t");
     mos_halt(hal);
   }
-  if((int)(addr/10)<10){
-    hal->gd[(int)addr/10]=1;
+  fgets(hal->memory->LINE,(int)sizeof(hal->memory->LINE),hal->instream);
+  if(meml_getchar(hal->memory,0)=='$' && meml_getchar(hal->memory,1)=='E'){
+    fprintf(hal->outstream,"\nmos_gd=>$END\t");
+    mos_halt(hal);
   }
+  strcpy(&(hal->memory->MMEM[(int)addr/10][(int)addr%10]),hal->memory->LINE);
+  //Eg card.c          strcpy(&((*memory).BUFF[count][0]),(*memory).LINE);
 }
 
 /* Print Data Service */
 void mos_pd(HAL *hal,int addr){
-  int temp;
   if(hal->cpu->SI!=pd && hal->cpu->PI==y){
-    fprintf(stderr,"Function=mos_pd:Error In Call");
+    fprintf(hal->outstream,"\nmos_pd=>si!=pd\t");
     mos_halt(hal);
   }
-  temp=addr/10;
-  if(hal->gd[temp]==1){
-    strcpy(hal->linep->OPLINE,hal->memory->BUFF[temp]);
-    hal->linep->OPFLAG=1;
-  }
+  strcpy(hal->linep->OPLINE,&(hal->memory->MMEM[(int)addr/10][(int)addr%10]));
+  hal->linep->OPFLAG=1;
 }
 
 /* Halt Service */
 HAL* mos_halt(HAL *hal){
   if(hal->cpu->SI!=h && hal->cpu->PI==y){
-    fprintf(stderr,"Function=mos_halt:Error In Call");
+    fprintf(hal->outstream,"\nmos_halt=>si!=h\t");
     exit(8);
   }
-  printf("Job finished");
+  if(meml_getchar(hal->memory,0)!='$' && meml_getchar(hal->memory,1)!='E'){
+    while(fgets(hal->memory->LINE,(int)sizeof(hal->memory->LINE),hal->instream))
+      if(meml_getchar(hal->memory,0)=='$'&& meml_getchar(hal->memory,1)=='E')
+        break;
+  }
+  fprintf(hal->outstream,"\nmos_halt=>Job finished\t");
   linep_jobend(hal->outstream);
   hal->flag=1;
   hal=mos_init(hal);
@@ -201,13 +207,13 @@ HAL* mos_halt(HAL *hal){
 void mos_lr(HAL *hal,int addr){
   int temp1,temp2,i;
   if(hal->cpu->PI==y){
-    fprintf(stderr,"Function=mos_lr:Error In Call");
+    fprintf(hal->outstream,"\nmos_lr=>pi==y\t");
     mos_halt(hal);
   }
   temp1=(addr/10);
   temp2=(addr%10);
   for(i=0;i<4;i++){
-    hal->cpu->R[i]=hal->memory->BUFF[temp1][temp2+i];
+    hal->cpu->R[i]=hal->memory->MMEM[temp1][temp2+i];
   }
 }
 
@@ -215,41 +221,42 @@ void mos_lr(HAL *hal,int addr){
 void mos_sr(HAL *hal,int addr){
   int temp1,temp2,i;
   if(hal->cpu->PI==y){
-    fprintf(stderr,"Function=mos_sr:Error In Call");
+    fprintf(hal->outstream,"\nmos_sr=>pi==y\t");
     mos_halt(hal);
   }
   temp1=(addr/10);
   temp2=(addr%10);
   for(i=0;i<4;i++){
-    hal->memory->BUFF[temp1][temp2+i]=hal->cpu->R[i];
+    hal->memory->MMEM[temp1][temp2+i]=hal->cpu->R[i];
   }
 }
 
 /* Compare Register Service */
 void mos_cr(HAL *hal,int addr){
-  int temp1=0,temp2=0,flag=1,i=0;
+  int temp1=0,temp2=0,check_flag=1,i=0;
   if(hal->cpu->PI==y){
-    fprintf(stderr,"Function=mos_cr:error in call");
+    fprintf(hal->outstream,"\nmos_cr=>pi==y\t");
     mos_halt(hal);
   }
   temp1=(addr/10);
   temp2=(addr%10);
   for(i=0;i<4;i++)
     {
-      if(hal->memory->BUFF[temp1][temp2+i]!=hal->cpu->R[i])
+      if(hal->memory->MMEM[temp1][temp2+i]!=hal->cpu->R[i])
         {
-          flag=0;
+          check_flag=0;
           break;
         }
     }
-  if(flag)
+  if(check_flag)
     hal->cpu->C=true;
 }
 
 /* Branch Toggle Service */
 void mos_bt(HAL *hal,int addr,int *row,int *line){
+ printf("row=%d line=%d",*row,*line);
   if(hal->cpu->PI==y){
-    fprintf(stderr,"error in call");
+    fprintf(hal->outstream,"\nmos_bt=>pi==y\t");
     mos_halt(hal);
   }
   *row=(addr%10)*4-1;

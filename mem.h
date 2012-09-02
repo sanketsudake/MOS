@@ -14,11 +14,13 @@
    LINE To Read Line From Program
  */
 struct MEM{
-  char BUFF[10][42];
+  char BUFF[20][42];
+  char MMEM[10][42];
   char LINE[42];
 };
 typedef struct MEM MEM;
 extern MEM* mem_init(MEM *memory);
-extern char mem_getchar(MEM *memory,int line,int place);
-extern char meml_getchar(MEM *memory,int no);
+extern char inline  mem_getchar(MEM *memory,int line,int place);
+extern char inline meml_getchar(MEM *memory,int no);
+extern char inline memm_getchar(MEM *memory,int line,int place);
 #endif  /* mem.h */
