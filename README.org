@@ -2,7 +2,7 @@ Author:Sanket Sudake
 
 A Virtual Implemention of OS for understanding routines of OS
 
-* MOS(Machine Operating System)
+* MOS(Multiprogramming Operating System)
 - Used for execution of multiple jobs
 - Job should be defined ,well structured
 - System Will Report Error For Wrong Jobs
@@ -24,3 +24,11 @@ A Virtual Implemention of OS for understanding routines of OS
 - Emacs
 - Gdb
 - Gprof,Gcov,Cscope
+
+* Using...
+- git clone https://github.com/tripples/MOS.git
+- cd MOS/source
+- make
+- ./mos
+- cat output.txt
+- Edit input.txt for more fun.
