@@ -24,5 +24,3 @@ A Virtual Implemention of OS for understanding routines of OS
 - Emacs
 - Gdb
 - Gprof,Gcov,Cscope
-
-
