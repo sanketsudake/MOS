@@ -3,8 +3,8 @@
 #  Licence:- GNU GPL v3
 #  Project Name:-Machine Operating System
 
-valtzar: card.o cpu.o linep.o main.o mem.o mos.o pblock.o
-	gcc -Wall -g -o valtzar card.o cpu.o linep.o main.o mem.o mos.o pblock.o
+mos   : card.o cpu.o linep.o main.o mem.o mos.o pblock.o
+	gcc -Wall -g -o mos card.o cpu.o linep.o main.o mem.o mos.o pblock.o
 
 card.o:card.c
 	gcc -Wall -g -c card.c

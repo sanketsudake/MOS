@@ -1,14 +1,14 @@
-Author:Sanket Sudake
-
-A Virtual Implemention of OS for understanding routines of OS
+* Author:Sanket Sudake
+- This is my Operating System Course Project For Practicals.
+- A Virtual Implemention routines of OS
 
 * MOS(Multiprogramming Operating System)
 - Used for execution of multiple jobs
 - Job should be defined ,well structured
-- System Will Report Error For Wrong Jobs
+- System Will Report Error For Wrong Jobs With Proper Error Messages
 - Series of Jobs should be kept in input.txt
 - Afer processing of jobs output can be seen output.txt
-
+- Random memory allocation for program card usedp
 
 * Job can consist of Instruction
 -  GD-Get Data
@@ -27,7 +27,7 @@ A Virtual Implemention of OS for understanding routines of OS
 
 * Using...
 - git clone https://github.com/tripples/MOS.git
-- cd MOS/source
+- cd MOS/`your desired phase`
 - make
 - ./mos
 - cat output.txt
