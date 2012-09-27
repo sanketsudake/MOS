@@ -32,7 +32,7 @@ linep_init(LINEPRINTER *linep){
 /* Open file for putting output  */
 FILE*
 linep_open(FILE *FOUT,char *filename){
-  FOUT=fopen(filename,"wt");
+  FOUT=fopen(filename,"w+b");
   if(FOUT==NULL){
     fprintf(stderr,"linep_open:Cant open output file");
     exit(8);
@@ -49,17 +49,17 @@ linep_close(FILE *FOUT){
 /* Print line output file */
 void
 linep_print(FILE *FOUT,LINEPRINTER *linep){
-  int found=0;
-  unsigned int i;
+  int found=0,i=0;
   if(FOUT && linep->OPFLAG)
     {
       fseek(FOUT,0,SEEK_END);
-      for(i=0;i<strlen(linep->OPLINE)+1;i++)
+      /* for(i=0;i<42;i++) */
+      /*   { */
+      /*     putc(linep->OPLINE[i],FOUT); */
+      /*   } */
+      for(i=0;i<42;i++)
         if(linep->OPLINE[i]=='\n')
-          {
-            found=1;
-            break;
-          }
+          found=1;
       if(!found)
         linep->OPLINE[strlen(linep->OPLINE)]='\n';
       fputs(linep->OPLINE,FOUT);

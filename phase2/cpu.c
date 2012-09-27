@@ -10,12 +10,12 @@ cpu_init(CPU *cpu){
   if(cpu==NULL)
     cpu=(CPU*)malloc(sizeof(CPU));
   if(cpu==NULL)
-    fprintf(stderr,"cpu_init:Memory not allocated");
+    fprintf(stderr,"\ncpu_init:Memory not allocated");
   cpu->IC=0;
   cpu->TTC=0;
   cpu->TLC=0;
-  memset((void*)cpu->IR,'\0',sizeof(char)*4);
-  memset((void*)cpu->R,'\0',sizeof(char)*4);
+  memset((void*)cpu->IR,'\0',sizeof(char)*5);
+  memset((void*)cpu->R,'\0',sizeof(char)*5);
   cpu->SI=3;
   cpu->PI=0;
   cpu->TI=0;

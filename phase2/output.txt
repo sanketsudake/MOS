@@ -2,72 +2,42 @@
 *   *   
 *   *   *   
 *   *   
-*   
-
-cpu_em:No Error
-mos_execute:JID=202	IR=H 	TTC=16	TLC=5
-
 
 cpu_em:Line Limit Exceeded
-mos_execute:JID=401	IR=PD20	TTC=2	TLC=0
+mos_execute:JID=202 IR=PD60 TTC=15 TLC=4
 
-A MAN A PLAN A CANAL PANAMA 
+
+CAT CAN EAT RAT 
+RAT 
 
 cpu_em:No Error
-mos_execute:JID=102	IR=H 	TTC=21	TLC=1
+mos_execute:JID=302 IR=H  TTC=10 TLC=2
+
+
+
+cpu_em:Invalid Page Fault
+mos_execute:JID=102 IR=LR36 TTC=2 TLC=0
+
+
+ABCD
+ABCD
+
+cpu_em:Time Limit Exceeded
+mos_execute:JID=401 IR=BT10 TTC=9 TLC=2
+
 
 
 cpu_em:Operand Error
-cpu_em:Invalid Page Fault
-mos_execute:JID=201	IR=PD40HOPE	TTC=6	TLC=0
-
-3 LITTLE PIGS WENT TO OS CLASS.
-THE WOLF ATE ONE!
-2 LITTLE PIGS WENT TO OS CLASS.
-THE WOLF ATE ONE!
-
-cpu_em:Invalid Page Fault
-cpu_em:Invalid Page Fault
-mos_execute:JID=3	IR=GD402 LI	TTC=10	TLC=4
-
-   N   U   T   R   A   F   I   N
-   N   I   F   A   R   T   U   N
-
-cpu_em:No Error
-mos_execute:JID=7	IR=H 	TTC=20	TLC=2
-
-I
-
-cpu_em:Invalid Page Fault
-cpu_em:Invalid Page Fault
-mos_execute:JID=5	IR=GD70I 	TTC=7	TLC=1
-
-CAT CAN EAT RAT
-RAT CAN NOT EAT CAT
-RAT CAN EAT RAT
-
-cpu_em:No Error
-mos_execute:JID=302	IR=H 	TTC=8	TLC=3
-
-I LIKE THIS PEN OF
-
-cpu_em:Time Limit Exceeded
-mos_execute:JID=101	IR=PD20HIS 	TTC=4	TLC=1
-
-NOT IN EXISTANCE
-RAM  IS OLDER THAN  SHRIRAM
-
-cpu_em:Time Limit Exceeded
-mos_execute:JID=102	IR=PD20RAM 	TTC=7	TLC=2
+mos_execute:JID=1503 IR=SR7A TTC=3 TLC=0
 
 
-cpu_em:Line Limit Exceeded
-mos_execute:JID=402	IR=PD20	TTC=2	TLC=0
 
-VIT IS GOOD
-VIIT IS GOOD
-BOTH ARE SISTER INSTITUTES
+cpu_em:Operation Code Error
+mos_execute:JID=1403 IR=PA30 TTC=9 TLC=0
 
-cpu_em:No Error
-mos_execute:JID=301	IR=H 	TTC=10	TLC=3
+
+
+cpu_em:Out of Data
+mos_execute:JID=1403 IR=GD30 TTC=1 TLC=0
+
 

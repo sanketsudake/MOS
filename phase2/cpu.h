@@ -21,7 +21,8 @@
 */
 struct CPU{
   unsigned int IC,TTC,TLC,SI,PI,TI,PTR;
-  char IR[4],R[4];
+  char R[5];
+  char IR[5];
   enum MODE{master,slave}MODE;
   enum TOGGLE{t,f}C;
 };

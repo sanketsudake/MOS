@@ -17,7 +17,7 @@
  */
 struct MEM{
   char MMEM[30][42];
-  char LINE[42];
+  char LINE[50];
   char mtemp[4];
   int randlist[10];
   int pcount;

@@ -23,7 +23,7 @@ card_read(FILE *FIN,MEM *memory,PCB *pcb,CPU *cpu){
   mem_pcount(memory,r_no);
   cpu->PTR=r_no;
   for(i=0;i<42;i++)
-    memory->MMEM[r_no][i]=0;
+    memory->MMEM[r_no][i]='0';
   while(fgets(memory->LINE,(int)sizeof(memory->LINE),FIN)){
     if((*memory).LINE[0]=='$'){
       switch(memory->LINE[1]){
@@ -61,19 +61,19 @@ card_read(FILE *FIN,MEM *memory,PCB *pcb,CPU *cpu){
   case 1:fprintf(stdout,"\ncard_read:Check for $AMJ,$DTA in Program :-(");
     exit(8);
     break;
-  case 2:fprintf(stdout,"\ncard_read:Program contains $AMJ,$DTA");
+  case 2://fprintf(stdout,"\ncard_read:Program contains $AMJ,$DTA");
     break;
   default:fprintf(stdout,"\ncard_read:Case not found for temp");
   }
   count=0;
   dtaflag=cpu->PTR;
-  fprintf(stdout,"\nPTR=%d",cpu->PTR);
+  fprintf(stdout,"\nPTR=%d\n",cpu->PTR);
   while(memory->MMEM[dtaflag][count*4+1]==1){
     r_no=memory->MMEM[dtaflag][count*4+2]*10+memory->MMEM[dtaflag][count*4+3];
     fprintf(stdout,"%d\t%s",r_no,memory->MMEM[r_no]);
     count++;
   }
-  fprintf(stdout,"\n");
+  //  fprintf(stdout,"\n");
   return count;
 }
 /* Close cardreader */

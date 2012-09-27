@@ -20,7 +20,7 @@ mem_alloc(MEM *memory){
 static MEM*
 mem_set(MEM *memory){
   memset((void*)memory->MMEM,'\0',sizeof(char)*30*42);
-  memset((void*)memory->LINE,'\0',sizeof(char)*42);
+  memset((void*)memory->LINE,'\0',sizeof(char)*50);
   memset((void*)memory->mtemp,'\0',sizeof(char)*4);
   memset((void*)memory->randlist,-1,sizeof(int)*10);
   memory->pcount=0;

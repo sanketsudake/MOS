@@ -140,7 +140,13 @@ mos_call(HAL *hal,int *row,int *line){
   i2=hal->cpu->IR[1];
   temp[0]=hal->cpu->IR[2];
   temp[1]=hal->cpu->IR[3];
+  if(!isdigit(temp[0]) || !isdigit(temp[1])){
+    cpu_em(5,hal->outstream);
+    hal->flag=1;
+    return 0;
+  }
   addr=atoi(temp);
+  fseek(hal->outstream,0,SEEK_END);
   while(1){
     if(i1=='G' && i2=='D'){
       hal->cpu->SI=1;
@@ -184,6 +190,12 @@ mos_execute(HAL *hal){
   hal->cpu->IC=0;
   line=mos_line(hal,count);
   while(1){
+    if(hal->cpu->TTC>=hal->pcb->TTL)
+      {
+        cpu_em(3,hal->outstream);
+        break;
+      }
+
     if(row==40){
       count+=1;
       row=0;
@@ -193,6 +205,7 @@ mos_execute(HAL *hal){
     hal->cpu->IR[1]=hal->memory->MMEM[line][row+1];
     hal->cpu->IR[2]=hal->memory->MMEM[line][row+2];
     hal->cpu->IR[3]=hal->memory->MMEM[line][row+3];
+    //    printf("\nrow=%d\tline=%d\tIR=%s",row,line,hal->cpu->IR);
     row+=4;
     if(hal->cpu->IR[0]=='H'){
       hal->cpu->TTC+=1;
@@ -206,11 +219,12 @@ mos_execute(HAL *hal){
     if(hal->flag)
       break;
   }
+  printf("%s",hal->memory->MMEM[hal->cpu->PTR]);
   for(i=0;i<strlen(hal->cpu->IR);i++)
     if(hal->cpu->IR[i]=='\n')
       hal->cpu->IR[i]=' ';
-  fprintf(hal->outstream,"\nmos_execute:JID=%d\tIR=%s\tTTC=%d\tTLC=%d"\
-          ,hal->pcb->job_id,hal->cpu->IR,hal->cpu->TTC,hal->cpu->TLC);
+  fseek(hal->outstream,0,SEEK_END);
+  fprintf(hal->outstream,"\nmos_execute:JID=%d IR=%s TTC=%d TLC=%d\n",hal->pcb->job_id,hal->cpu->IR,hal->cpu->TTC,hal->cpu->TLC);
   mos_halt(hal);
 }
 /* Halt Service */
@@ -230,22 +244,21 @@ void
 mos_gd(HAL *hal,int addr){
   int temp1,temp2,r_no;
   fgets(hal->memory->LINE,(int)sizeof(hal->memory->LINE),hal->instream);
-  r_no=mem_random(hal->memory);
-  mem_pcount(hal->memory,r_no);
   temp1=hal->cpu->PTR;
   temp2=(addr/10)*4;
   if(hal->memory->MMEM[temp1][temp2+1]==1){
-    hal->cpu->PI=3;
-    hal->flag=1;
-    cpu_em(6,hal->outstream);
-    return;
+    r_no=mos_line(hal,addr/10);
   }
-  hal->memory->MMEM[temp1][temp2]=0;
-  hal->memory->MMEM[temp1][temp2+1]=1;
-  hal->memory->MMEM[temp1][temp2+2]=r_no/10;
-  hal->memory->MMEM[temp1][temp2+3]=r_no%10;
+  else{
+    r_no=mem_random(hal->memory);
+    mem_pcount(hal->memory,r_no);
+    hal->memory->MMEM[temp1][temp2]=0;
+    hal->memory->MMEM[temp1][temp2+1]=1;
+    hal->memory->MMEM[temp1][temp2+2]=r_no/10;
+    hal->memory->MMEM[temp1][temp2+3]=r_no%10;
+  }
   if(meml_getchar(hal->memory,0)=='$' && meml_getchar(hal->memory,1)=='E'){
-    fprintf(hal->outstream,"\nmos_gd=>$END");
+    cpu_em(1,hal->outstream);
     hal->cpu->SI=3;
     hal->flag=1;
   }
@@ -271,9 +284,8 @@ mos_pd(HAL *hal,int addr){
     }
   }
   else{
-    cpu_em(5,hal->outstream);
+    cpu_em(6,hal->outstream);
     hal->flag=1;
-    hal->cpu->PI=3;
   }
 }
 void
@@ -289,7 +301,7 @@ mos_lr(HAL *hal,int addr){
     hal->cpu->R[4]='\0';
   }
   else{
-    cpu_em(5,hal->outstream);
+    cpu_em(6,hal->outstream);
     hal->flag=1;
   }
 }
@@ -310,6 +322,7 @@ mos_sr(HAL *hal,int addr){
   hal->memory->MMEM[r_no][addr%10*4+1]=hal->cpu->R[1];
   hal->memory->MMEM[r_no][addr%10*4+2]=hal->cpu->R[2];
   hal->memory->MMEM[r_no][addr%10*4+3]=hal->cpu->R[3];
+
 }
 void
 mos_cr(HAL *hal,int addr){
@@ -328,7 +341,7 @@ mos_cr(HAL *hal,int addr){
   }
   else{
     hal->flag=1;
-    cpu_em(5,hal->outstream);
+    cpu_em(6,hal->outstream);
   }
 }
 void

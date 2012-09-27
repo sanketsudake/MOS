@@ -11,7 +11,7 @@ pcb_init(PCB *pcb)
   if(pcb==NULL)
     pcb=(PCB*)malloc(sizeof(PCB));
   if(pcb==NULL)
-      printf("pcb_init:Memory not allocated");
+    fprintf(stdout,"\npcb_init:Memory not allocated");
   pcb->job_id=0;
   pcb->TTL=0;
   pcb->TLL=0;
@@ -41,5 +41,5 @@ pcb_set(char *LINE,PCB *pcb)
   pcb->temp[2]=LINE[14];
   pcb->temp[3]=LINE[15];
   pcb->TLL=atoi(pcb->temp);
-  printf("pcb_set:JOB_ID=%d\tTTL=%d\tTLL=%d\n",pcb->job_id,pcb->TTL,pcb->TLL);
+  printf("\npcb_set:JOB_ID=%d\tTTL=%d\tTLL=%d",pcb->job_id,pcb->TTL,pcb->TLL);
 }
