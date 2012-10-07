@@ -45,14 +45,14 @@ mos_init(HAL *hal){
   hal->flag=0;
   return hal;
 }
-/* Random no */
+/* Return random for particular count line no.*/
 static int
 mos_line(HAL *hal,int count){
   int r_no;
   r_no=hal->memory->MMEM[hal->cpu->PTR][count*4+2]*10+hal->memory->MMEM[hal->cpu->PTR][count*4+3];
   return r_no;
 }
-/* Mos int */
+/* Mos int handling interrupts in MOS*/
 void
 mos_int(HAL *hal,int addr){
   while(1){
@@ -131,7 +131,8 @@ mos_int(HAL *hal,int addr){
   hal->cpu->PI=0;
   hal->cpu->TI=0;
 }
-/* Mos call */
+/* Mos call Function called after each instruction loaded in IR
+check if opcode and oprand are correct later on call the functions*/
 int
 mos_call(HAL *hal,int *row,int *line){
   char i1,i2,temp[2]="";
@@ -141,9 +142,10 @@ mos_call(HAL *hal,int *row,int *line){
   temp[0]=hal->cpu->IR[2];
   temp[1]=hal->cpu->IR[3];
   if(!isdigit(temp[0]) || !isdigit(temp[1])){
-    cpu_em(5,hal->outstream);
+    //cpu_em(5,hal->outstream);
     hal->flag=1;
-    return 0;
+    hal->cpu->PI=2;
+    //    return 0;
   }
   addr=atoi(temp);
   fseek(hal->outstream,0,SEEK_END);
@@ -183,7 +185,9 @@ mos_call(HAL *hal,int *row,int *line){
   mos_int(hal,addr);
   return 0;
 }
-/* Mos execute */
+/* Mos execute
+Execution of each mos code, after loading into memory, starts here.
+*/
 void
 mos_execute(HAL *hal){
   int line=0,row=0,count=0,i;
@@ -224,10 +228,10 @@ mos_execute(HAL *hal){
     if(hal->cpu->IR[i]=='\n')
       hal->cpu->IR[i]=' ';
   fseek(hal->outstream,0,SEEK_END);
-  fprintf(hal->outstream,"\nmos_execute:JID=%d IR=%s TTC=%d TLC=%d\n",hal->pcb->job_id,hal->cpu->IR,hal->cpu->TTC,hal->cpu->TLC);
+  fprintf(hal->outstream,"\nmos_execute:JID=%d IC=%d IR=%s TLC=%d\n",hal->pcb->job_id,hal->cpu->TTC,hal->cpu->IR,hal->cpu->TLC);
   mos_halt(hal);
 }
-/* Halt Service */
+/* Halt Service -halt the mos by inserting two new lines*/
 HAL*
 mos_halt(HAL *hal){
   if(meml_getchar(hal->memory,1)!='E'){
@@ -240,6 +244,9 @@ mos_halt(HAL *hal){
   hal=mos_init(hal);
   return hal;
 }
+/* GD get data service allocate the block for new data ,give error if out of
+the data
+ */
 void
 mos_gd(HAL *hal,int addr){
   int temp1,temp2,r_no;
@@ -264,7 +271,7 @@ mos_gd(HAL *hal,int addr){
   }
   strncpy(hal->memory->MMEM[r_no],hal->memory->LINE,42);
 }
-
+/* PD print data,find random no for page and print data */
 void
 mos_pd(HAL *hal,int addr){
   int temp1,temp2,r_no;
@@ -288,6 +295,8 @@ mos_pd(HAL *hal,int addr){
     hal->flag=1;
   }
 }
+/* LR load register,map particular address and get cpu register loaded with
+given location */
 void
 mos_lr(HAL *hal,int addr){
   int temp1,r_no;
@@ -305,6 +314,7 @@ mos_lr(HAL *hal,int addr){
     hal->flag=1;
   }
 }
+/* SR store register,store data in cpu register as per address given */
 void
 mos_sr(HAL *hal,int addr){
   int temp1,temp2,r_no;
@@ -324,6 +334,8 @@ mos_sr(HAL *hal,int addr){
   hal->memory->MMEM[r_no][addr%10*4+3]=hal->cpu->R[3];
 
 }
+/* CR -compare register, compare data in register with memory location
+given */
 void
 mos_cr(HAL *hal,int addr){
   int temp1,r_no,i,check_flag=1;
@@ -344,6 +356,7 @@ mos_cr(HAL *hal,int addr){
     cpu_em(6,hal->outstream);
   }
 }
+/* Branch toggle if toggle value 1 */
 void
 mos_bt(HAL *hal,int addr,int *row,int *line){
   int tempaddr=0,i,j,flag=0,temp1,r_no;

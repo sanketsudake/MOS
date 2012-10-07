@@ -4,40 +4,56 @@
 *   *   
 
 cpu_em:Line Limit Exceeded
-mos_execute:JID=202 IR=PD60 TTC=15 TLC=4
+mos_execute:JID=202 IC=15 IR=PD60 TLC=4
 
 
 CAT CAN EAT RAT 
 RAT 
 
 cpu_em:No Error
-mos_execute:JID=302 IR=H  TTC=10 TLC=2
+mos_execute:JID=302 IC=10 IR=H  TLC=2
 
 
 
 cpu_em:Invalid Page Fault
-mos_execute:JID=102 IR=LR36 TTC=2 TLC=0
+mos_execute:JID=102 IC=2 IR=LR36 TLC=0
 
 
 ABCD
 ABCD
 
 cpu_em:Time Limit Exceeded
-mos_execute:JID=401 IR=BT10 TTC=9 TLC=2
+mos_execute:JID=401 IC=9 IR=BT10 TLC=2
 
 
 
 cpu_em:Operand Error
-mos_execute:JID=1503 IR=SR7A TTC=3 TLC=0
+mos_execute:JID=1503 IC=4 IR=SR7A TLC=0
 
 
 
 cpu_em:Operation Code Error
-mos_execute:JID=1403 IR=PA30 TTC=9 TLC=0
+mos_execute:JID=1403 IC=9 IR=PA30 TLC=0
 
 
 
 cpu_em:Out of Data
-mos_execute:JID=1403 IR=GD30 TTC=1 TLC=0
+mos_execute:JID=1403 IC=1 IR=GD30 TLC=0
+
+
+ABCD
+ABCD
+
+cpu_em:Time Limit Exceeded
+cpu_em:Operation Code Error
+mos_execute:JID=401 IC=9 IR=BA10 TLC=2
+
+
+ABCD
+ABCD
+
+cpu_em:Time Limit Exceeded
+cpu_em:Operand Error
+mos_execute:JID=401 IC=9 IR=BT1A TLC=2
 
 

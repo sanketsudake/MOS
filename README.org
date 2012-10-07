@@ -11,13 +11,15 @@
 - Random memory allocation for program card usedp
 
 * Job can consist of Instruction
--  GD-Get Data
--  PD-Print Data
--  LR-Load Register From Memory
--  SR-Store Register From Memory
--  CR-Compare Register And Memory
--  BT-Branch Toggle(Checks Toggle Variable)
-
+- GD-Get Data
+- PD-Print Data
+- LR-Load Register From Memory
+- SR-Store Register From Memory
+- CR-Compare Register And Memory
+- BT-Branch Toggle(Checks Toggle Variable)
+- Job should start with $AMJ
+- There is $DTA after declaration of data cards
+- Job should end with $END
 
 * Tool used
 - Gcc compiler

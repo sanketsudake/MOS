@@ -20,4 +20,4 @@ int main(){
   }
   hal_turnoff(hal);
   return 0;
-}
+} /* End of main */
