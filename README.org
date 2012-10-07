@@ -18,7 +18,8 @@
 - CR-Compare Register And Memory
 - BT-Branch Toggle(Checks Toggle Variable)
 - Job should start with $AMJ
-- There is $DTA after declaration of data cards
+- There is $DTA after declaration of program cards
+  and before data cards
 - Job should end with $END
 
 * Tool used
