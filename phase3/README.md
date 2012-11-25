@@ -5,8 +5,9 @@ Phase 3
 * mos.py : Whole operating system
 * objects.py : All required objects
 * mos : Code executer from phase2 (Main processor)
---------------------------------------------------------------
 
+
+--------------------------------------------------------------
 View screenshot to understand quickly
 --------------------------------------------------------------
 
@@ -14,3 +15,4 @@ Usage:
 ```
 python main.py
 ```
+See output.txt
