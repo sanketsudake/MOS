@@ -1,0 +1,16 @@
+digraph "classes_No_Name" {
+charset="utf-8"
+rankdir=BT
+"4" [shape="record", label="{Mos|cpu\llinep\lflags : list\lmemory\lbqueue\lcard\l|execute()\lchannel3()\lchannel2()\lchannel1()\lload_in_main()\lservices()\l}"];
+"7" [shape="record", label="{LinePrinter|outfile\l|write()\ljobend()\l}"];
+"8" [shape="record", label="{BufferQueue|buffno : int\lifbq\lofbq\lebq\l|print_curr()\ladd_ebq()\ladd_ifbq()\ladd_ofbq()\lget_buffer()\l}"];
+"9" [shape="record", label="{Pblock|JID : int\lrandlist\lTSC : int\lTLC : int\lTTL : int\lTTC : int\loutput\lIC : int\lPTR : int\lTLL : int\l|}"];
+"10" [shape="record", label="{Memory|main_mem : dict\ldrum : dict\lsuper_mem : dict\ldtrack\l|main_mem_add()\lsuper_mem_add()\ldrum_add()\lprint_curr()\l}"];
+"11" [shape="record", label="{Cpu|readyq\lC : bool\ltermq\lIR : tuple\lSI : int\lR : tuple\lMODE : str\lTI : int\lloadq\lPI : int\lmode : str\l|curr_ir()\lchange_mode()\lcurr_reg()\l}"];
+"12" [shape="record", label="{Card|infile\l|read()\l}"];
+"11" -> "4" [arrowhead="diamond", style="solid", arrowtail="none", fontcolor="green", label="cpu"];
+"7" -> "4" [arrowhead="diamond", style="solid", arrowtail="none", fontcolor="green", label="linep"];
+"10" -> "4" [arrowhead="diamond", style="solid", arrowtail="none", fontcolor="green", label="memory"];
+"8" -> "4" [arrowhead="diamond", style="solid", arrowtail="none", fontcolor="green", label="bqueue"];
+"12" -> "4" [arrowhead="diamond", style="solid", arrowtail="none", fontcolor="green", label="card"];
+}

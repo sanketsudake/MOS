@@ -1,0 +1,11 @@
+digraph "packages_No_Name" {
+charset="utf-8"
+rankdir=BT
+"3" [shape="box", label="mos"];
+"5" [shape="box", label="main"];
+"6" [shape="box", label="objects"];
+"7" [shape="box", label="core"];
+"3" -> "7" [arrowtail="none", arrowhead="open"];
+"3" -> "6" [arrowtail="none", arrowhead="open"];
+"5" -> "3" [arrowtail="none", arrowhead="open"];
+}

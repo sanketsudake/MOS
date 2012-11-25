@@ -4,3 +4,4 @@
 #Compiled Source#
 *.o
 *.h.gch
+*.pyc
